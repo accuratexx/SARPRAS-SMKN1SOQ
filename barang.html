@@ -88,9 +88,9 @@
         if (!localStorage.getItem('user')) { window.location.href = 'login.html'; }
 
         async function loadIncludes() {
-            const hRes = await fetch('includes/header.html');
+            const hRes = await fetch('header.html');
             document.getElementById('header-container').innerHTML = await hRes.text();
-            const fRes = await fetch('includes/footer.html');
+            const fRes = await fetch('footer.html');
             document.getElementById('footer-container').innerHTML = await fRes.text();
         }
 
