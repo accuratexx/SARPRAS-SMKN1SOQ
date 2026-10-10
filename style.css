@@ -1,0 +1,171 @@
+/* CSS Utama Sapras Sekolah */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8fafc;
+    color: #334155;
+    margin: 0;
+    padding: 0;
+}
+
+/* Banner Sekolah */
+.school-banner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 16px;
+    background-color: #1e293b;
+}
+
+.school-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.school-banner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    color: white;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.1)
+    );
+}
+
+.school-banner-overlay h1 {
+    font-size: clamp(22px, 3vw, 36px);
+}
+
+.banner-sekolah {
+    width: 100% !important;
+    height: 450px !important;
+    max-width: none !important;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 16px;
+    display: block;
+}
+
+/* Cards & Components */
+.welcome-title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 750;
+    color: #172554;
+    letter-spacing: -0.5px;
+}
+
+.stat-card {
+    border: 1px solid #e8edf4;
+    border-radius: 14px;
+    padding: 20px;
+    height: 100%;
+    background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+}
+
+.stat-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.stat-icon svg {
+    width: 27px;
+    height: 27px;
+    display: block;
+}
+
+.icon-biru { background: #cfe2ff; color: #0d6efd; }
+.icon-pink { background: #f8d7da; color: #dc3545; }
+.icon-kuning { background: #fff3cd; color: #b78103; }
+.icon-hijau { background: #d1e7dd; color: #198754; }
+
+.stat-number {
+    font-size: 30px;
+    font-weight: 750;
+    color: #172554;
+    line-height: 1.3;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.quick-menu {
+    border: 1px solid #e8edf4;
+    border-radius: 14px;
+    background: #fff;
+    padding: 22px;
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #e8edf4;
+    border-radius: 10px;
+    color: #334155;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.quick-link:hover {
+    background: #f1f5f9;
+    color: #1d4ed8;
+}
+
+.quick-link strong {
+    display: block;
+    font-size: 14px;
+}
+
+.quick-link small {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.quick-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+/* Auth Pages Styling */
+.auth-body {
+    background: linear-gradient(135deg, #eaf1fb, #f8fafc);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-card {
+    background: #ffffff;
+    border: 0;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 14px 45px rgba(24, 49, 83, 0.08);
+}

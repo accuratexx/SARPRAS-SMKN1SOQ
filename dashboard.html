@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Sapras Sekolah</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div id="header-container"></div>
+
+    <main class="container my-4 flex-grow-1">
+        <!-- School Banner with Overlay & Custom CSS Classes -->
+        <div class="school-banner mb-4">
+            <img src="assets/img/sekolah.jpg" alt="Foto SMK Negeri 1 Sorong" class="school-banner-img banner-sekolah" onerror="this.src='https://via.placeholder.com/1200x450?text=Foto+SMK+Negeri+1+Sorong'">
+            <div class="school-banner-overlay">
+                <h1 class="fw-bold mb-1" id="welcomeText">
+                    Selamat Datang di Sapras SMK Negeri 1 Sorong
+                </h1>
+                <p class="mb-0 text-white-50">
+                    Sistem Informasi Pengelolaan Sarana dan Prasarana Sekolah.
+                </p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <h2 class="h5 fw-bold mb-1">Ringkasan Data</h2>
+            <p class="text-secondary small">
+                Informasi terbaru mengenai sarana dan prasarana sekolah.
+            </p>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-biru">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 16 9 5 9-5"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label">Total Jenis Barang</div>
+                    <div class="stat-number" id="statBarang">0</div>
+                    <small class="text-secondary">Data inventaris</small>
+                </div>
+            </div>
+
+            <div class="col-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-pink">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label">Barang Bermasalah</div>
+                    <div class="stat-number" id="statRusak">0</div>
+                    <small class="text-secondary">Perlu diperiksa</small>
+                </div>
+            </div>
+
+            <div class="col-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-kuning">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="m8.5 12 2.2 2.2 4.8-4.8"/><path d="M9 17h6"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label">Laporan Aktif</div>
+                    <div class="stat-number" id="statLaporan">0</div>
+                    <small class="text-secondary">Belum selesai</small>
+                </div>
+            </div>
+
+            <div class="col-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-hijau">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 7h13l-3-3"/><path d="M20 7 17 10"/><path d="M17 17H4l3 3"/><path d="m4 17 3-3"/><path d="M5 7v3"/><path d="M19 17v-3"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label">Peminjaman Aktif</div>
+                    <div class="stat-number" id="statPinjam">0</div>
+                    <small class="text-secondary">Belum dikembalikan</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-menu mb-4">
+            <h2 class="h5 fw-bold mb-1">Menu Cepat</h2>
+            <p class="text-secondary small mb-3">Pilih menu untuk mengelola data sekolah.</p>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <a href="barang.html" class="quick-link">
+                        <svg class="quick-icon" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 16 9 5 9-5"/></svg>
+                        <div><strong>Kelola Inventaris</strong><small>Tambah dan periksa data barang</small></div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="kerusakan.html" class="quick-link">
+                        <svg class="quick-icon" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.7 6.3 3-3a5 5 0 0 1-6.6 6.6L5 16a2.1 2.1 0 0 0 3 3l6.1-6.1a5 5 0 0 0 6.6-6.6l-3 3-3-3Z"/></svg>
+                        <div><strong>Laporan Kerusakan</strong><small>Periksa dan perbarui laporan</small></div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="peminjaman.html" class="quick-link">
+                        <svg class="quick-icon" viewBox="0 0 24 24" fill="none" stroke="#198754" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h13l-3-3"/><path d="M20 7 17 10"/><path d="M17 17H4l3 3"/><path d="m4 17 3-3"/><path d="M5 7v3"/><path d="M19 17v-3"/></svg>
+                        <div><strong>Peminjaman Barang</strong><small>Kelola pinjam dan pengembalian</small></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) { window.location.href = 'login.html'; }
+
+        async function loadIncludes() {
+            const hRes = await fetch('includes/header.html');
+            document.getElementById('header-container').innerHTML = await hRes.text();
+            const fRes = await fetch('includes/footer.html');
+            document.getElementById('footer-container').innerHTML = await fRes.text();
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        async function loadStats() {
+            const { count: barangCount } = await db.from('barang').select('*', { count: 'exact', head: true });
+            document.getElementById('statBarang').textContent = barangCount || 0;
+
+            const { count: rusakCount } = await db.from('barang').select('*', { count: 'exact', head: true }).neq('kondisi', 'Baik');
+            document.getElementById('statRusak').textContent = rusakCount || 0;
+
+            const { count: lapCount } = await db.from('laporan_kerusakan').select('*', { count: 'exact', head: true }).neq('status', 'Selesai');
+            document.getElementById('statLaporan').textContent = lapCount || 0;
+
+            const { count: pinjamCount } = await db.from('peminjaman').select('*', { count: 'exact', head: true }).eq('status', 'Dipinjam');
+            document.getElementById('statPinjam').textContent = pinjamCount || 0;
+        }
+
+        loadIncludes();
+        loadStats();
+    </script>
+</body>
+</html>
