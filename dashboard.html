@@ -13,7 +13,7 @@
     <main class="container my-4 flex-grow-1">
         <!-- School Banner with Overlay & Custom CSS Classes -->
         <div class="school-banner mb-4">
-            <img src="assets/img/sekolah.jpg" alt="Foto SMK Negeri 1 Sorong" class="school-banner-img banner-sekolah" onerror="this.src='https://via.placeholder.com/1200x450?text=Foto+SMK+Negeri+1+Sorong'">
+            <img src="sekolah.jpg" alt="Foto SMK Negeri 1 Sorong" class="school-banner-img banner-sekolah" onerror="this.src='https://via.placeholder.com/1200x450?text=Foto+SMK+Negeri+1+Sorong'">
             <div class="school-banner-overlay">
                 <h1 class="fw-bold mb-1" id="welcomeText">
                     Selamat Datang di Sapras SMK Negeri 1 Sorong
@@ -115,7 +115,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase.js"></script>
+    <script src="supabase.js"></script>
     <script>
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user) { window.location.href = 'login.html'; }
