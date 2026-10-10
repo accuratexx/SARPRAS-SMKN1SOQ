@@ -8,51 +8,139 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-
-    <!-- Header / Navbar -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="dashboard.html">Sapras SMK Negeri 1 Sorong</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="barang.html">Inventaris</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="kerusakan.html">Laporan Kerusakan</a></li>
-                        <li class="nav-item"><a class="nav-link" href="peminjaman.html">Peminjaman</a></li>
-                        <li class="nav-item"><a class="nav-link text-danger fw-semibold" href="#" onclick="logout()">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div id="header-container"></div>
 
     <main class="container my-4 flex-grow-1">
-        <h2 class="h4 fw-bold mb-3">Laporan Kerusakan Barang</h2>
-        <!-- Konten / Form / Tabel Laporan Kerusakan Kamu di sini -->
+        <h1 class="h3 fw-bold mb-3">Laporan Kerusakan</h1>
+        <div class="card p-4 mb-4 shadow-sm">
+            <h2 class="h5 mb-3">Buat Laporan Kerusakan</h2>
+            <form id="laporanForm" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Barang</label>
+                    <select class="form-select" id="barang_id" required><option value="">Pilih barang</option></select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nama Pelapor</label>
+                    <input type="text" class="form-control" id="pelapor" maxlength="100" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tanggal Laporan</label>
+                    <input type="date" class="form-control" id="tanggal" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Deskripsi Kerusakan</label>
+                    <textarea class="form-control" id="deskripsi" rows="3" required></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Kirim Laporan</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card p-3 shadow-sm">
+            <h2 class="h5 mb-3">Daftar Laporan</h2>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Barang</th>
+                            <th>Pelapor</th>
+                            <th>Deskripsi</th>
+                            <th>Status & Tindak Lanjut</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelLaporan"></tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer mt-auto py-3 bg-light border-top">
-        <div class="container text-center">
-            <span class="text-muted">&copy; 2026 Sapras SMK Negeri 1 Sorong. Hak Cipta Dilindungi.</span>
-        </div>
-    </footer>
+    <div id="footer-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase.js"></script>
     <script>
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user) { window.location.href = 'login.html'; }
+        if (!localStorage.getItem('user')) { window.location.href = 'login.html'; }
+        document.getElementById('tanggal').valueAsDate = new Date();
+
+        async function loadIncludes() {
+            const hRes = await fetch('header.html');
+            document.getElementById('header-container').innerHTML = await hRes.text();
+            const fRes = await fetch('footer.html');
+            document.getElementById('footer-container').innerHTML = await fRes.text();
+        }
 
         function logout() {
             localStorage.removeItem('user');
             window.location.href = 'login.html';
         }
+
+        async function loadSelectBarang() {
+            const { data } = await db.from('barang').select('id, kode_barang, nama_barang').order('nama_barang');
+            const select = document.getElementById('barang_id');
+            data?.forEach(b => {
+                select.innerHTML += `<option value="${b.id}">${b.kode_barang} - ${b.nama_barang}</option>`;
+            });
+        }
+
+        async function loadLaporan() {
+            const { data } = await db.from('laporan_kerusakan').select('*, barang(kode_barang, nama_barang, lokasi)').order('id', { ascending: false });
+            const tbody = document.getElementById('tabelLaporan');
+            tbody.innerHTML = '';
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-secondary py-4">Belum ada laporan kerusakan.</td></tr>`;
+                return;
+            }
+            data.forEach(l => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${l.tanggal}</td>
+                        <td><strong>${l.barang?.kode_barang} - ${l.barang?.nama_barang}</strong><div class="small text-secondary">Lokasi: ${l.barang?.lokasi || '-'}</div></td>
+                        <td>${l.pelapor}</td>
+                        <td>${l.deskripsi}</td>
+                        <td>
+                            <select class="form-select form-select-sm mb-2" id="status_${l.id}">
+                                <option value="Menunggu" ${l.status==='Menunggu'?'selected':''}>Menunggu</option>
+                                <option value="Diproses" ${l.status==='Diproses'?'selected':''}>Diproses</option>
+                                <option value="Selesai" ${l.status==='Selesai'?'selected':''}>Selesai</option>
+                            </select>
+                            <textarea class="form-control form-control-sm" id="tindak_${l.id}" rows="2" placeholder="Tindak lanjut">${l.tindak_lanjut || ''}</textarea>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="updateLaporan(${l.id})">Simpan</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        document.getElementById('laporanForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await db.from('laporan_kerusakan').insert([{
+                barang_id: document.getElementById('barang_id').value,
+                pelapor: document.getElementById('pelapor').value,
+                tanggal: document.getElementById('tanggal').value,
+                deskripsi: document.getElementById('deskripsi').value,
+                status: 'Menunggu'
+            }]);
+            document.getElementById('laporanForm').reset();
+            document.getElementById('tanggal').valueAsDate = new Date();
+            loadLaporan();
+        });
+
+        async function updateLaporan(id) {
+            const status = document.getElementById(`status_${id}`).value;
+            const tindak_lanjut = document.getElementById(`tindak_${id}`).value;
+            await db.from('laporan_kerusakan').update({ status, tindak_lanjut }).eq('id', id);
+            alert('Status laporan berhasil diperbarui.');
+            loadLaporan();
+        }
+
+        loadIncludes();
+        loadSelectBarang();
+        loadLaporan();
     </script>
 </body>
 </html>
