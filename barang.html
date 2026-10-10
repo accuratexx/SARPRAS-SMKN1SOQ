@@ -3,187 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inventaris Barang | Sapras Sekolah</title>
+    <title>Inventaris | Sapras Sekolah</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-
-    <!-- Header / Navbar -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="dashboard.html">Sapras SMK Negeri 1 Sorong</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="barang.html">Inventaris</a></li>
-                        <li class="nav-item"><a class="nav-link" href="kerusakan.html">Laporan Kerusakan</a></li>
-                        <li class="nav-item"><a class="nav-link" href="peminjaman.html">Peminjaman</a></li>
-                        <li class="nav-item"><a class="nav-link text-danger fw-semibold" href="#" onclick="logout()">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div id="header-container"></div>
 
     <main class="container my-4 flex-grow-1">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="h4 fw-bold mb-1">Kelola Inventaris Barang</h2>
-                <p class="text-secondary small mb-0">Tambah, lihat, dan kelola data sarana prasarana sekolah.</p>
-            </div>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahBarang">+ Tambah Barang</button>
+        <h1 class="h3 fw-bold mb-3">Inventaris Barang</h1>
+        <div class="card p-4 mb-4 shadow-sm">
+            <h2 class="h5" id="formTitle">Tambah barang</h2>
+            <form id="barangForm" class="row g-3">
+                <input type="hidden" id="barangId">
+                <div class="col-md-3">
+                    <label class="form-label">Kode barang</label>
+                    <input type="text" class="form-control" id="kode_barang" placeholder="INV-001" required>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Nama barang</label>
+                    <input type="text" class="form-control" id="nama_barang" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Kategori</label>
+                    <input type="text" class="form-control" id="kategori" placeholder="Elektronik, mebel, dll." required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Lokasi</label>
+                    <input type="text" class="form-control" id="lokasi" placeholder="Lab RPL" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Jumlah</label>
+                    <input type="number" class="form-control" id="jumlah" min="1" value="1" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Kondisi</label>
+                    <select class="form-select" id="kondisi">
+                        <option value="Baik">Baik</option>
+                        <option value="Rusak Ringan">Rusak Ringan</option>
+                        <option value="Rusak Berat">Rusak Berat</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tanggal pengadaan</label>
+                    <input type="date" class="form-control" id="tanggal_pengadaan">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Keterangan</label>
+                    <textarea class="form-control" id="keterangan" rows="2"></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Simpan barang</button>
+                    <button type="button" class="btn btn-light d-none" id="btnBatal" onclick="resetForm()">Batal edit</button>
+                </div>
+            </form>
         </div>
 
-        <!-- Tabel Data Barang -->
-        <div class="card border-0 shadow-sm rounded-4">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3">No</th>
-                                <th>Nama Barang</th>
-                                <th>Kondisi</th>
-                                <th>Jumlah</th>
-                                <th class="text-end pe-3">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelBarang">
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-secondary">Memuat data...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="card p-3 shadow-sm">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Barang</th>
+                            <th>Kategori</th>
+                            <th>Lokasi</th>
+                            <th>Jumlah</th>
+                            <th>Kondisi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelBarang"></tbody>
+                </table>
             </div>
         </div>
     </main>
 
-    <!-- Modal Tambah Barang -->
-    <div class="modal fade" id="modalTambahBarang" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content border-0 rounded-4 shadow">
-                <form id="formBarang">
-                    <div class="modal-header">
-                        <h5 class="modal-title fw-bold">Tambah Barang Baru</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Nama Barang</label>
-                            <input type="text" class="form-control" id="namaBarang" required placeholder="Contoh: Proyektor Epson">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Kondisi</label>
-                            <select class="form-select" id="kondisiBarang" required>
-                                <option value="Baik">Baik</option>
-                                <option value="Rusak Ringan">Rusak Ringan</option>
-                                <option value="Rusak Berat">Rusak Berat</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Jumlah</label>
-                            <input type="number" class="form-control" id="jumlahBarang" required min="1" value="1">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan Barang</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer mt-auto py-3 bg-light border-top">
-        <div class="container text-center">
-            <span class="text-muted">&copy; 2026 Sapras SMK Negeri 1 Sorong. Hak Cipta Dilindungi.</span>
-        </div>
-    </footer>
+    <div id="footer-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase.js"></script>
     <script>
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user) { window.location.href = 'login.html'; }
+        if (!localStorage.getItem('user')) { window.location.href = 'login.html'; }
+
+        async function loadIncludes() {
+            const hRes = await fetch('includes/header.html');
+            document.getElementById('header-container').innerHTML = await hRes.text();
+            const fRes = await fetch('includes/footer.html');
+            document.getElementById('footer-container').innerHTML = await fRes.text();
+        }
 
         function logout() {
             localStorage.removeItem('user');
             window.location.href = 'login.html';
         }
 
-        // Fungsi Memuat Data Barang dari Supabase
         async function loadBarang() {
-            const { data, error } = await db.from('barang').select('*').order('id', { ascending: false });
+            const { data } = await db.from('barang').select('*').order('id', { ascending: false });
             const tbody = document.getElementById('tabelBarang');
-            
-            if (error) {
-                console.error("Gagal memuat barang:", error);
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-danger">Gagal memuat data: ${error.message}</td></tr>`;
-                return;
-            }
-
-            if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-secondary">Belum ada data inventaris.</td></tr>`;
-                return;
-            }
-
             tbody.innerHTML = '';
-            data.forEach((item, index) => {
-                let badgeClass = 'bg-success';
-                if (item.kondisi === 'Rusak Ringan') badgeClass = 'bg-warning text-dark';
-                if (item.kondisi === 'Rusak Berat') badgeClass = 'bg-danger';
-
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-secondary py-4">Belum ada barang. Tambahkan lewat formulir di atas.</td></tr>`;
+                return;
+            }
+            data.forEach(b => {
                 tbody.innerHTML += `
                     <tr>
-                        <td class="ps-3">${index + 1}</td>
-                        <td class="fw-semibold">${item.nama}</td>
-                        <td><span class="badge ${badgeClass}">${item.kondisi}</span></td>
-                        <td>${item.jumlah || 1}</td>
-                        <td class="text-end pe-3">
-                            <button class="btn btn-sm btn-outline-danger" onclick="hapusBarang(${item.id})">Hapus</button>
+                        <td>${b.kode_barang}</td>
+                        <td>${b.nama_barang}</td>
+                        <td>${b.kategori}</td>
+                        <td>${b.lokasi}</td>
+                        <td>${b.jumlah}</td>
+                        <td>${b.kondisi}</td>
+                        <td class="text-nowrap">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editBarang(${b.id}, '${b.kode_barang}', '${b.nama_barang}', '${b.kategori}', '${b.lokasi}', ${b.jumlah}, '${b.kondisi}', '${b.tanggal_pengadaan || ''}', '${b.keterangan || ''}')">Edit</button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="hapusBarang(${b.id})">Hapus</button>
                         </td>
-                    </tr>
-                `;
+                    </tr>`;
             });
         }
 
-        // Fungsi Tambah Barang
-        document.getElementById('formBarang').addEventListener('submit', async function(e) {
+        document.getElementById('barangForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nama = document.getElementById('namaBarang').value;
-            const kondisi = document.getElementById('kondisiBarang').value;
-            const jumlah = parseInt(document.getElementById('jumlahBarang').value);
+            const id = document.getElementById('barangId').value;
+            const payload = {
+                kode_barang: document.getElementById('kode_barang').value,
+                nama_barang: document.getElementById('nama_barang').value,
+                kategori: document.getElementById('kategori').value,
+                lokasi: document.getElementById('lokasi').value,
+                jumlah: parseInt(document.getElementById('jumlah').value),
+                kondisi: document.getElementById('kondisi').value,
+                tanggal_pengadaan: document.getElementById('tanggal_pengadaan').value || null,
+                keterangan: document.getElementById('keterangan').value
+            };
 
-            const { error } = await db.from('barang').insert([{ nama, kondisi, jumlah }]);
-
-            if (error) {
-                alert("Gagal menyimpan: " + error.message);
+            if (id) {
+                await db.from('barang').update(payload).eq('id', id);
             } else {
-                alert("Barang berhasil ditambahkan!");
-                location.reload();
+                await db.from('barang').insert([payload]);
             }
+            resetForm();
+            loadBarang();
         });
 
-        // Fungsi Hapus Barang
+        function editBarang(id, kode, nama, kat, lok, jum, kon, tgl, ket) {
+            document.getElementById('barangId').value = id;
+            document.getElementById('kode_barang').value = kode;
+            document.getElementById('nama_barang').value = nama;
+            document.getElementById('kategori').value = kat;
+            document.getElementById('lokasi').value = lok;
+            document.getElementById('jumlah').value = jum;
+            document.getElementById('kondisi').value = kon;
+            document.getElementById('tanggal_pengadaan').value = tgl;
+            document.getElementById('keterangan').value = ket;
+            document.getElementById('formTitle').textContent = 'Edit barang';
+            document.getElementById('btnBatal').classList.remove('d-none');
+        }
+
+        function resetForm() {
+            document.getElementById('barangForm').reset();
+            document.getElementById('barangId').value = '';
+            document.getElementById('formTitle').textContent = 'Tambah barang';
+            document.getElementById('btnBatal').classList.add('d-none');
+        }
+
         async function hapusBarang(id) {
-            if (confirm("Yakin ingin menghapus barang ini?")) {
-                const { error } = await db.from('barang').delete().eq('id', id);
-                if (error) {
-                    alert("Gagal menghapus: " + error.message);
-                } else {
-                    loadBarang();
-                }
+            if (confirm('Hapus barang ini?')) {
+                await db.from('barang').delete().eq('id', id);
+                loadBarang();
             }
         }
 
+        loadIncludes();
         loadBarang();
     </script>
 </body>
