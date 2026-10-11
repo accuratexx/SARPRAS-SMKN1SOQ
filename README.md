@@ -16,5 +16,9 @@
    - Atur Row Level Security (RLS) dan berikan *Policy* `INSERT` & `SELECT` untuk akses publik/anonim agar registrasi dan login berjalan lancar.
 4. Buka file `js/supabase.js` dan masukkan konfigurasi kredensial Anda:
    ```javascript
+
+   UNTUK ADMIN BISA LOGIN DENGAN:
+   usr: admin
+   pw: admin123
    const SUPABASE_URL = 'https://TRVSZ_ID_ANDA.supabase.co';
    const SUPABASE_ANON_KEY = 'PUBLISHABLE_KEY_ANDA';
